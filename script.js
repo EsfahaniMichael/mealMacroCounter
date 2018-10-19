@@ -76,7 +76,7 @@ function addStudent(){
      var student = {
         name: studentName, course: courseName, grade: studentGrade
     }
-    console.log(student);
+
     student_array.push(student);
     updateStudentList(student_array);
     clearAddStudentFormInputs();
@@ -85,7 +85,7 @@ function addStudent(){
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
 function clearAddStudentFormInputs(){
-    console.log('hey buddy');
+
     $('#course').val('');
     $('#studentName').val('');
     $('#studentGrade').val('');
@@ -106,7 +106,10 @@ function renderStudentOnDom(index){
         grade.remove();
         deleteButton.remove();
         name.remove();
+        tr.remove();
         student_array.splice(index, 1);
+        updateStudentList(student_array);
+
     });
     var tr = $('<tr>');
     tr.append(name, course, grade, deleteButton);
