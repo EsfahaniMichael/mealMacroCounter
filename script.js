@@ -41,6 +41,7 @@ function initializeApp(){
 function addClickHandlersToElements(){
     $('#button1').on('click', handleAddClicked);
     $('#button2').on('click', handleCancelClick);
+    $('#button3').on('click', handleServerClick)
 }
 
 /***************************************************************************************************
@@ -155,6 +156,15 @@ function renderGradeAverage(average){
 
 }
 
+function handleServerClick(){
+    var ajaxConfig = {
+        dataType: 'json',
+        url: 's-apis.learningfuze.com/sgt/get',
+        success: function(result) {
+        }
+    }
+
+}
 
 
 
