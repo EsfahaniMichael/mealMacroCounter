@@ -41,7 +41,7 @@ function initializeApp(){
 function addClickHandlersToElements(){
     $('#button1').on('click', handleAddClicked);
     $('#button2').on('click', handleCancelClick);
-    $('#button3').on('click', handleServerClick)
+    $('#button3').on('click', handleServerClick);
 }
 
 /***************************************************************************************************
@@ -51,6 +51,7 @@ function addClickHandlersToElements(){
        none
  */
 function handleAddClicked(){
+
     addStudent();
 }
 
@@ -97,16 +98,14 @@ function clearAddStudentFormInputs(){
  * into the .student_list tbody
  * @param {object} studentObj a single student object with course, name, and grade inside
  */
-function renderStudentOnDom(index){
+function renderStudentOnDom(studentObj){
 
-   var name = $('<td>').text(student_array[index].name);
-    var course = $('<td>').text(student_array[index].course);
-    var grade  = $('<td>').text(student_array[index].grade);
+   var name = $('<td>').text(studentObj.name);
+    var course = $('<td>').text(studentObj.course);
+    var grade  = $('<td>').text(studentObj.grade);
+    var index = student_array.indexOf(studentObj);
     var deleteButton = $('<td>').html("<button type ='button' class= 'btn btn-danger btn-xs'> Delete </button> ").click(function(){
-        course.remove();
-        grade.remove();
-        deleteButton.remove();
-        name.remove();
+
         tr.remove();
         student_array.splice(index, 1);
         updateStudentList(student_array);
@@ -126,7 +125,8 @@ function renderStudentOnDom(index){
 function updateStudentList(array){
     $('tbody').empty();
     for (var studentListIndex = 0; studentListIndex < array.length; studentListIndex++){
-        renderStudentOnDom(studentListIndex);
+        renderStudentOnDom(array[studentListIndex]);
+        // student_array.push(array[studentListIndex]);
     }
 
   var gradeAverage = calculateGradeAverage(array);
@@ -156,13 +156,42 @@ function renderGradeAverage(average){
 
 }
 
+
+
 function handleServerClick(){
+    var myData = {api_key: "nwlHxOXLdQ"}
+
     var ajaxConfig = {
         dataType: 'json',
-        url: 's-apis.learningfuze.com/sgt/get',
-        success: function(result) {
-        }
+        url: "http://s-apis.learningfuze.com/sgt/get",
+        method: "Post",
+        data: myData,
+        success: function(response){
+            student_array = response.data;
+            updateStudentList(student_array);
+            console.log("get data function worked " + response);
+        },
     }
+    $.ajax(ajaxConfig);
+
+}
+
+function addingManual(){
+    var myData = {api_key: "nwlHxOXLdQ"}
+
+    var ajaxConfig = {
+        dataType: 'json',
+        url: "http://s-apis.learningfuze.com/sgt/create",
+        method: "Post",
+        data: myData,
+        success: function(response){
+            student_array.push(response.data);
+            updateStudentList(student_array);
+            console.log("get data function worked " + response);
+        },
+    }
+    $.ajax(ajaxConfig);
+
 
 }
 
