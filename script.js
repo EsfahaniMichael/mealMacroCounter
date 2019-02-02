@@ -15,6 +15,7 @@ function addClickHandlersToElements(){
 }
 
 function handleAddClicked(){
+
     addStudent();
 }
 
