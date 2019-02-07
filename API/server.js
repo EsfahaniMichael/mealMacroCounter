@@ -2,6 +2,31 @@ const express = require("express");
 const bodyParser = require('body-parser');
 // const jsonParser = bodyParser.json({type: ' application/*+json'});
 const env = require("dotenv");
+//testing
+const mysql = require('mysql');
+const credentials = require('./credentials');
+
+const dataBase = mysql.createConnection(credentials);
+dataBase.connect((error) => {
+    if(error){
+        console.log('connection to DB failed!')
+
+    }
+    else{
+        console.log('connected to database');
+    }
+})
+const meal = 'potato salad';
+const query = `SELECT * FROM meals`;
+// const insert = [meal];
+// const sql = mysql.format(query, insert);
+dataBase.query(query, (error, data, fields)=>{
+    if(!error){
+        console.log(data[1]);
+    } else {
+        console.log('query failed');
+    }
+});
 
 
 const macroTable = require('./lib/table');
