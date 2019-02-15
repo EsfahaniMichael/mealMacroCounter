@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 // const jsonParser = bodyParser.json({type: ' application/*+json'});
 const env = require("dotenv");
-//testing
+
 const mysql = require('mysql');
 const credentials = require('./credentials');
 
@@ -39,7 +39,7 @@ dataBase.connect((error) => {
 //  VALUES (NULL, '', '', '', '') `
 
 
-const macroTable = require('./lib/table');
+
 
 
 
@@ -79,7 +79,7 @@ app.get('/meals',(req, res, next) =>{
 
 
 
-
+// const macroTable = require('./lib/table');
 
 // app.get('/', (req, res, next) => {
 //     const data = macroTable.get();
