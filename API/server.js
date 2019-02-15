@@ -17,12 +17,12 @@ dataBase.connect((error) => {
     }
 })
 const meal = 'potato salad';
-const query = `SELECT * FROM meals`;
-// const insert = [meal];
-// const sql = mysql.format(query, insert);
-dataBase.query(query, (error, data, fields)=>{
+const query = `SELECT * FROM meals AS m WHERE meal = ?`;
+const insert = [meal];
+const sql = mysql.format(query, insert);
+dataBase.query(sql, (error, data, fields)=>{
     if(!error){
-        console.log(data[1]);
+        console.log(data[0]);
     } else {
         console.log('query failed');
     }
