@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 // const jsonParser = bodyParser.json({type: ' application/*+json'});
 const env = require("dotenv");
-//testing
+
 const mysql = require('mysql');
 const credentials = require('./credentials');
 
@@ -39,7 +39,7 @@ dataBase.connect((error) => {
 //  VALUES (NULL, '', '', '', '') `
 
 
-const macroTable = require('./lib/table');
+
 
 
 
@@ -75,11 +75,46 @@ app.get('/meals',(req, res, next) =>{
         });
 } )
 
+app.get('/meals/:id', (req, res, next) => {
+    const { id } = req.params;
+
+    let query = 'SELECT * FROM ?? WHERE ?? = ?';
+    let inserts = ['students', 'id', id];
+
+    let sql = mysql.format(query, inserts);
+
+    dataBase.query(sql, (err, results, fields) => {
+        if (err) return next(err);
+
+        const output = {
+            success: true,
+            data: results
+        };
+        res.json(output);
+    });
+});
+
+app.post('/meals', (req, res, next) => {
+    const { meal, protein, carbohydrates, fats} = req.body;
+    console.log('this be a meal',req.body)
+    let query = 'INSERT INTO ?? (??, ??, ??, ??) VALUES (?, ?, ?, ?)';
+    let inserts = ['meals', 'meal', 'protein', 'carbohydrates', 'fats', meal, protein, carbohydrates, fats];
+
+    let sql = mysql.format(query, inserts);
+    console.log("This is the formatted SQL", sql);
+    dataBase.query(sql, (err, results, fields) => {
+        if (err) return next(err);
+        const output = {
+            success : true,
+            data: results
+        }
+        res.json(output);
+    })
+});
 
 
 
-
-
+// const macroTable = require('./lib/table');
 
 // app.get('/', (req, res, next) => {
 //     const data = macroTable.get();
