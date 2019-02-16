@@ -112,6 +112,24 @@ app.post('/meals', (req, res, next) => {
     })
 });
 
+app.post('/meals/delete', (req, res, next) => {
+    const { id } = req.body;
+
+    let query = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';
+    let inserts = ['meals', 'status', 'inactive', 'id', id];
+
+    let sql = mysql.format(query, inserts);
+    console.log("This is the formatted SQL", sql);
+    dataBase.query(sql, (err, results, fields) => {
+        if (err) return next(err);
+        const output = {
+            success : true,
+            data: results
+        }
+        res.json(output);
+    })
+});
+
 
 
 // const macroTable = require('./lib/table');
