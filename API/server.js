@@ -115,8 +115,8 @@ app.post('/meals', (req, res, next) => {
 app.post('/meals/delete', (req, res, next) => {
     const { id } = req.body;
 
-    let query = 'UPDATE ?? SET ?? = ? WHERE ?? = ?';
-    let inserts = ['meals', 'status', 'inactive', 'id', id];
+    let query = 'DELETE FROM ?? WHERE ?? = ?';
+    let inserts = ['meals','id', id];
 
     let sql = mysql.format(query, inserts);
     console.log("This is the formatted SQL", sql);
