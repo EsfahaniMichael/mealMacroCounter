@@ -75,7 +75,42 @@ app.get('/meals',(req, res, next) =>{
         });
 } )
 
+app.get('/meals/:id', (req, res, next) => {
+    const { id } = req.params;
 
+    let query = 'SELECT * FROM ?? WHERE ?? = ?';
+    let inserts = ['students', 'id', id];
+
+    let sql = mysql.format(query, inserts);
+
+    dataBase.query(sql, (err, results, fields) => {
+        if (err) return next(err);
+
+        const output = {
+            success: true,
+            data: results
+        };
+        res.json(output);
+    });
+});
+
+app.post('/meals', (req, res, next) => {
+    const { meal, protein, carbohydrates, fats} = req.body;
+    console.log('this be a meal',req.body)
+    let query = 'INSERT INTO ?? (??, ??, ??, ??) VALUES (?, ?, ?, ?)';
+    let inserts = ['meals', 'meal', 'protein', 'carbohydrates', 'fats', meal, protein, carbohydrates, fats];
+
+    let sql = mysql.format(query, inserts);
+    console.log("This is the formatted SQL", sql);
+    dataBase.query(sql, (err, results, fields) => {
+        if (err) return next(err);
+        const output = {
+            success : true,
+            data: results
+        }
+        res.json(output);
+    })
+});
 
 
 
