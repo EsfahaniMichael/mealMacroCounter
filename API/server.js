@@ -130,6 +130,24 @@ app.post('/meals/delete', (req, res, next) => {
     })
 });
 
+app.use(function(err, req, res, next){
+    if (err) {
+        console.error(err);
+        res.status(err.status || 500).json("Something broke!");
+    }
+    next();
+})
+
+
+var PORT = process.env.PORT;
+
+app.listen(PORT, () => {
+    console.log('LISTENING on: ', PORT)
+})
+
+
+
+
 
 
 // const macroTable = require('./lib/table');
@@ -147,9 +165,3 @@ app.post('/meals/delete', (req, res, next) => {
 
 //     return res.send("sent")
 // })
-
-var PORT = process.env.PORT;
-
-app.listen(PORT, () => {
-    console.log('LISTENING on: ', PORT)
-})
